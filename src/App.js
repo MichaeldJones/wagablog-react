@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
+import { Header } from "./components/Header";
+import { Query } from "./components/Query";
+import { Post } from "./components/Post";
+import { posts } from "./data";
 
 function App() {
+  const [post, setPost] = useState(null);
+  const [query, setQuery] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header setQuery={ setQuery } setPost={ setPost } />
+
+      
+        {post && (
+          <motion.div initial="small" animate="big" variants={{
+            small: {
+              scale: .4,
+              opacity: 0.5
+            },
+            big: {
+              scale: 1,
+              opacity: 1,
+              transition: {
+                duration: .5
+              }
+            },
+          }}>
+            <Post post={ post } />
+          </motion.div>
+        )}
+      
+      
+      
+
+      {!post && (
+        <Query
+          posts={ posts }
+          setPost={ setPost }
+          query={ query }
+        />
+      )}
+
+      
+    </>
   );
 }
 
